@@ -1,0 +1,11 @@
+language: go
+
+go:
+  - 1.11.x
+
+go_import_path: gopkg.in/jfontan/go-billy-desfacer.v0
+
+script:
+  - make dependencies
+  - make test-coverage
+  - make codecov
