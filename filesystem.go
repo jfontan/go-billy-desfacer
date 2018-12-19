@@ -12,6 +12,7 @@ const defaultDirectoryMode = 0755
 
 var _ billy.Basic = new(FS)
 var _ billy.Dir = new(FS)
+var _ billy.Filesystem = new(FS)
 
 type FS struct {
 	a afero.Fs
@@ -113,4 +114,29 @@ func (f *FS) createDir(fullpath string) error {
 	}
 
 	return nil
+}
+
+func (f *FS) Lstat(filename string) (os.FileInfo, error) {
+	return f.a.Stat(filename)
+}
+
+func (f *FS) Symlink(target string, link string) error {
+	panic("not implemented")
+}
+
+func (f *FS) Readlink(link string) (string, error) {
+	panic("not implemented")
+}
+
+func (f *FS) TempFile(dir string, prefix string) (billy.File, error) {
+	panic("not implemented")
+}
+
+func (f *FS) Chroot(path string) (billy.Filesystem, error) {
+	af := afero.NewBasePathFs(f.a, path)
+	return New(af), nil
+}
+
+func (f *FS) Root() string {
+	panic("not implemented")
 }
