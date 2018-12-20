@@ -1,25 +1,39 @@
 package desfacer
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
 	"github.com/spf13/afero"
 	"gopkg.in/src-d/go-billy.v4"
+	"gopkg.in/src-d/go-billy.v4/util"
 )
 
 const defaultDirectoryMode = 0755
 
-var _ billy.Basic = new(FS)
-var _ billy.Dir = new(FS)
+var (
+	_ billy.Basic      = new(FS)
+	_ billy.Dir        = new(FS)
+	_ billy.Filesystem = new(FS)
+
+	// ErrNotImplemented is returned when the function is not implemented.
+	ErrNotImplemented = fmt.Errorf("functionality not implemented")
+)
 
 type FS struct {
-	a afero.Fs
+	a    afero.Fs
+	path string
 }
 
 func New(fs afero.Fs) *FS {
+	return NewPath(fs, "/")
+}
+
+func NewPath(fs afero.Fs, path string) *FS {
 	return &FS{
-		a: fs,
+		a:    fs,
+		path: path,
 	}
 }
 
@@ -113,4 +127,41 @@ func (f *FS) createDir(fullpath string) error {
 	}
 
 	return nil
+}
+
+// Lstat implements billy.Symlink interface.
+func (f *FS) Lstat(filename string) (os.FileInfo, error) {
+	if s, ok := f.a.(afero.Lstater); ok {
+		stat, _, err := s.LstatIfPossible(filename)
+		return stat, err
+	}
+
+	return f.a.Stat(filename)
+}
+
+// Symlink implements billy.Symlink interface.
+func (f *FS) Symlink(target string, link string) error {
+	return ErrNotImplemented
+}
+
+// Readlink implements billy.Symlink interface.
+func (f *FS) Readlink(link string) (string, error) {
+	return "", ErrNotImplemented
+}
+
+// TempFile implements billy.TempFile interface.
+func (f *FS) TempFile(dir string, prefix string) (billy.File, error) {
+	return util.TempFile(f, dir, prefix)
+}
+
+// Chroot implements billy.Chroot interface.
+func (f *FS) Chroot(path string) (billy.Filesystem, error) {
+	af := afero.NewBasePathFs(f.a, path)
+	p := filepath.Clean(filepath.Join(f.path, path))
+	return NewPath(af, p), nil
+}
+
+// Root implements billy.Chroot interface.
+func (f *FS) Root() string {
+	return f.path
 }

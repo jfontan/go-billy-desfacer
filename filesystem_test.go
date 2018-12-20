@@ -16,7 +16,9 @@ var _ = Suite(&FilesystemSuite{})
 
 type FilesystemSuite struct {
 	test.BasicSuite
+	test.TempFileSuite
 	test.DirSuite
+	test.ChrootSuite
 
 	FS  *FS
 	tmp string
@@ -25,6 +27,7 @@ type FilesystemSuite struct {
 func (s *FilesystemSuite) SetUpTest(c *C) {
 	a := afero.NewOsFs()
 	fs := New(a)
+	s.FS = fs
 
 	var err error
 	s.tmp, err = util.TempDir(fs, "", "billy")
@@ -32,7 +35,9 @@ func (s *FilesystemSuite) SetUpTest(c *C) {
 
 	tmp := chroot.New(fs, s.tmp)
 	s.BasicSuite.FS = tmp
+	s.TempFileSuite.FS = tmp
 	s.DirSuite.FS = tmp
+	s.ChrootSuite.FS = tmp
 }
 
 func (s *FilesystemSuite) TearDownTest(c *C) {
