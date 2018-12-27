@@ -1,4 +1,4 @@
-# go-billy-desfacer [![GoDoc](https://godoc.org/gopkg.in/jfontan/go-billy-desfacer.v0?status.svg)](https://godoc.org/github.com/jfontan/go-billy-desfacer)
+# go-billy-desfacer [![GoDoc](https://godoc.org/gopkg.in/jfontan/go-billy-desfacer.v0?status.svg)](https://godoc.org/github.com/jfontan/go-billy-desfacer)[![Build Status](https://travis-ci.com/jfontan/go-billy-desfacer.svg?branch=master)](https://travis-ci.com/jfontan/go-billy-desfacer)[![codecov](https://codecov.io/gh/jfontan/go-billy-desfacer/branch/master/graph/badge.svg)](https://codecov.io/gh/jfontan/go-billy-desfacer)
 
 [go-billy](https://github.com/src-d/go-billy) filesystem that wraps [afero](https://github.com/spf13/afero). It lets use afero filesystems with software that expects go-billy, for example with [go-git](https://github.com/src-d/go-git).
 
@@ -57,7 +57,6 @@ func main() {
 
 # Notes
 
-* Right now it does not pass the tests as there's a bug in `go-billy` test suite: https://github.com/src-d/go-billy/pull/66
 * The functions `Symlink` and `Readlink` are not implemented as afero does not have that functionality.
 
 
