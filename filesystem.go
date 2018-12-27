@@ -7,6 +7,7 @@ import (
 
 	"github.com/spf13/afero"
 	"gopkg.in/src-d/go-billy.v4"
+	"gopkg.in/src-d/go-billy.v4/helper/chroot"
 	"gopkg.in/src-d/go-billy.v4/util"
 )
 
@@ -156,9 +157,7 @@ func (f *FS) TempFile(dir string, prefix string) (billy.File, error) {
 
 // Chroot implements billy.Chroot interface.
 func (f *FS) Chroot(path string) (billy.Filesystem, error) {
-	af := afero.NewBasePathFs(f.a, path)
-	p := filepath.Clean(filepath.Join(f.path, path))
-	return NewPath(af, p), nil
+	return chroot.New(f, path), nil
 }
 
 // Root implements billy.Chroot interface.

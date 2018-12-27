@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/afero"
 	. "gopkg.in/check.v1"
-	"gopkg.in/src-d/go-billy.v4/helper/chroot"
 	"gopkg.in/src-d/go-billy.v4/test"
 	"gopkg.in/src-d/go-billy.v4/util"
 )
@@ -20,20 +19,22 @@ type FilesystemSuite struct {
 	test.DirSuite
 	test.ChrootSuite
 
-	FS  *FS
-	tmp string
+	baseFS *FS
+	tmp    string
 }
 
 func (s *FilesystemSuite) SetUpTest(c *C) {
 	a := afero.NewOsFs()
 	fs := New(a)
-	s.FS = fs
+	s.baseFS = fs
 
 	var err error
 	s.tmp, err = util.TempDir(fs, "", "billy")
 	c.Assert(err, IsNil)
 
-	tmp := chroot.New(fs, s.tmp)
+	tmp, err := fs.Chroot(s.tmp)
+	c.Assert(err, IsNil)
+
 	s.BasicSuite.FS = tmp
 	s.TempFileSuite.FS = tmp
 	s.DirSuite.FS = tmp
@@ -41,8 +42,8 @@ func (s *FilesystemSuite) SetUpTest(c *C) {
 }
 
 func (s *FilesystemSuite) TearDownTest(c *C) {
-	if s.FS != nil {
-		err := util.RemoveAll(s.FS, s.tmp)
+	if s.baseFS != nil {
+		err := util.RemoveAll(s.baseFS, s.tmp)
 		c.Assert(err, IsNil)
 	}
 }
