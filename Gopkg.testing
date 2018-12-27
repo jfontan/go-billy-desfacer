@@ -1,0 +1,4 @@
+[[constraint]]
+  name = "gopkg.in/src-d/go-billy.v4"
+  source = "github.com/src-d/go-billy"
+  revision = "40f7491e8a4a5cf7ab1d17f7679d94938ca4a714"

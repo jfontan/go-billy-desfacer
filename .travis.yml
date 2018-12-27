@@ -6,6 +6,8 @@ go:
 go_import_path: gopkg.in/jfontan/go-billy-desfacer.v0
 
 script:
+  - cp Gopkg.testing Gopkg.toml
+  - make godep
   - make dependencies
   - make test-coverage
   - make codecov
