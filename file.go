@@ -2,7 +2,7 @@ package desfacer
 
 import (
 	"github.com/spf13/afero"
-	"gopkg.in/src-d/go-billy.v4"
+	billy "gopkg.in/src-d/go-billy.v4"
 )
 
 var _ billy.File = new(File)
@@ -53,12 +53,12 @@ func (f *File) Close() error {
 
 // Lock implements billy.File interface.
 func (f *File) Lock() error {
-	panic("not implemented")
+	return nil
 }
 
 // Unlock implements billy.File interface.
 func (f *File) Unlock() error {
-	panic("not implemented")
+	return nil
 }
 
 // Truncate implements billy.File interface.
