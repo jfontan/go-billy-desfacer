@@ -3,10 +3,10 @@ package desfacer
 import (
 	"testing"
 
+	"github.com/go-git/go-billy/v5/test"
+	"github.com/go-git/go-billy/v5/util"
 	"github.com/spf13/afero"
 	. "gopkg.in/check.v1"
-	"gopkg.in/src-d/go-billy.v4/test"
-	"gopkg.in/src-d/go-billy.v4/util"
 )
 
 func Test(t *testing.T) { TestingT(t) }

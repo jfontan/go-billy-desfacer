@@ -1,8 +1,8 @@
 package desfacer
 
 import (
+	"github.com/go-git/go-billy/v5"
 	"github.com/spf13/afero"
-	billy "gopkg.in/src-d/go-billy.v4"
 )
 
 var _ billy.File = new(File)
