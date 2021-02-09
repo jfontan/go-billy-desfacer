@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/afero"
-	"gopkg.in/jfontan/go-billy-desfacer.v0"
+	desfacer "gopkg.in/jfontan/go-billy-desfacer.v0"
 )
 
 func main() {

@@ -5,10 +5,10 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/go-git/go-billy/v5"
+	"github.com/go-git/go-billy/v5/helper/chroot"
+	"github.com/go-git/go-billy/v5/util"
 	"github.com/spf13/afero"
-	"gopkg.in/src-d/go-billy.v4"
-	"gopkg.in/src-d/go-billy.v4/helper/chroot"
-	"gopkg.in/src-d/go-billy.v4/util"
 )
 
 const defaultDirectoryMode = 0755

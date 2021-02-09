@@ -1,13 +1,11 @@
 language: go
 
 go:
-  - 1.11.x
-
-go_import_path: gopkg.in/jfontan/go-billy-desfacer.v0
+  - 1.13.x
+  - 1.14.x
+  - 1.15.x
 
 script:
-  - cp Gopkg.testing Gopkg.toml
-  - make godep
   - make dependencies
   - make test-coverage
   - make codecov
